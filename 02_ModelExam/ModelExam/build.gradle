@@ -1,0 +1,73 @@
+plugins {
+    id 'java'
+    id 'war'
+    id 'org.springframework.boot' version '2.7.16'
+    id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    sourceCompatibility = '11'
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+//  TODO : 로그백, 로깅 라이브러리 logback , log4jdbc 설정
+    implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
+    implementation 'ch.qos.logback:logback-classic:1.2.11'
+    implementation 'org.slf4j:slf4j-api:1.7.36'
+    implementation 'org.slf4j:jcl-over-slf4j:1.7.36'
+
+//  TODO : jsp 라이브러리 추가
+    implementation 'org.apache.tomcat.embed:tomcat-embed-jasper' // 추가
+    implementation 'javax.servlet:jstl' // 추가
+
+//  TODO : spring web lib
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+//  TODO : lombok lib   : getset,setter, 생성자 등 어노테이션을 기반으로 컴파일 시간에 일반적인 메서드를 자동으로 생성
+    compileOnly 'org.projectlombok:lombok'
+//  TODO : devtools lib : 자동 재시작
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    annotationProcessor 'org.projectlombok:lombok'
+//  TODO : WAS 서버 내장 : tomcat
+    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+//  TODO : junit 테스팅 툴
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
