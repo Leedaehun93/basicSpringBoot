@@ -18,9 +18,8 @@ import java.util.List;
  * fileName : Dept02Controller
  * author : L.DH
  * date : 2023-10-10
- * description : 부서 컨트롤러 - 화면 & 업무로직 중간 역할(리모콘 역할)
- * @Slf4j, findAll()
- * 요약 : Servvice 객체의 상세조회 호출
+ * description : 컨트롤러_상세(1건) 조회
+ * 요약 :
  * <p>
  * ===========================================================
  * DATE            AUTHOR             NOTE

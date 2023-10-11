@@ -12,9 +12,8 @@ import java.util.List;
  * fileName : Member03Service
  * author : L.DH
  * date : 2023-10-10
- * description : 회원 서비스 - 업무 로직
+ * description : 부서 정보 저장 함수
  * 요약 :
- * <p>
  * ===========================================================
  * DATE            AUTHOR             NOTE
  * ———————————————————————————————

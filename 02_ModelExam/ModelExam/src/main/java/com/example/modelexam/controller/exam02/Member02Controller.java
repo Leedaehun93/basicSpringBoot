@@ -20,7 +20,7 @@ import java.util.List;
  * description :
  * 멤버 컨트롤러 - 화면 & 업무로직 중간 역할(리모콘 역할)
  * @Slf4j, findAll()
- * 요약 : Servvice 객체의 상세조회 호출
+ * 요약 : Service 객체의 상세조회 호출
  * <p>
  * ===========================================================
  * DATE            AUTHOR             NOTE
