@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.mybatisexam.dao.EmpDao">
+
+    <select id="findByEnameContaining" parameterType="PageReq" resultType="Emp">
+        SELECT ENO
+             , ENAME
+             , JOB
+             , MANAGER
+             , HIREDATE
+             , SALARY
+             , COMMISSION
+             , DNO
+             , INSERT_TIME
+             , UPDATE_TIME
+        FROM TB_EMP
+        WHERE ENAME LIKE '%' || #{ename} || '%'
+        OFFSET #{pageReq.page} * #{pageReq.size} ROWS FETCH FIRST #{pageReq.size} ROWS ONLY
+    </select>
+
+    <select id="countByEname" parameterType="String" resultType="long">
+        SELECT COUNT(eno)
+        FROM TB_EMP
+        WHERE ENAME LIKE '%' || #{ename} || '%'
+    </select>
+</mapper>
