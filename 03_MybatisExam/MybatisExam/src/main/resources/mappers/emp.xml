@@ -5,17 +5,16 @@
 
     <select id="findByEnameContaining" parameterType="PageReq" resultType="Emp">
         SELECT ENO
-             , ENAME
-             , JOB
-             , MANAGER
-             , HIREDATE
-             , SALARY
-             , COMMISSION
-             , DNO
-             , INSERT_TIME
-             , UPDATE_TIME
+        , ENAME
+        , JOB
+        , MANAGER
+        , HIREDATE
+        , SALARY
+        , COMMISSION
+        , DNO
+        <include refid="common.selectCol"></include>
         FROM TB_EMP
-        WHERE ENAME LIKE '%' || #{ename} || '%'
+        WHERE ENAME LIKE '%' || #{ename} ||  '%'
         OFFSET #{pageReq.page} * #{pageReq.size} ROWS FETCH FIRST #{pageReq.size} ROWS ONLY
     </select>
 
@@ -24,4 +23,69 @@
         FROM TB_EMP
         WHERE ENAME LIKE '%' || #{ename} || '%'
     </select>
+
+    <select id="findById" parameterType="int" resultType="Emp">
+        SELECT ENO
+        , ENAME
+        , JOB
+        , MANAGER
+        , HIREDATE
+        , SALARY
+        , COMMISSION
+        , DNO
+        <include refid="common.selectCol"></include>
+        FROM TB_EMP
+        WHERE ENO = #{eno}
+    </select>
+
+    <insert id="insert" parameterType="Emp">
+        INSERT INTO TB_EMP (
+                              ENO
+                           ,  ENAME
+                           ,  JOB
+                           ,  MANAGER
+                           ,  HIREDATE
+                           ,  SALARY
+                           ,  COMMISSION
+                           ,  DNO
+                           , INSERT_TIME
+                           )
+        VALUES (
+                SQ_EMP.NEXTVAL
+               ,  #{ename}
+               ,  #{job}
+               ,  #{manager}
+               ,  #{hiredate}
+               ,  #{salary}
+               ,  #{commission}
+               ,  #{dno}
+               ,  #{insertTime}
+               )
+    </insert>
+
+    <update id="update" parameterType="Emp">
+        UPDATE TB_EMP
+        SET
+            ENAME       = #{ename}
+          , JOB         = #{job}
+          , MANAGER     = #{manager}
+          , HIREDATE    = #{hiredate}
+          , SALARY      = #{salary}
+          , COMMISSION  = #{commission}
+          , DNO         = #{dno}
+          , UPDATE_TIME = #{updateTime}
+        WHERE ENO = #{eno}
+    </update>
+
+
+    <delete id="deleteById" parameterType="int">
+        DELETE FROM TB_EMP
+        WHERE ENO = #{eno}
+    </delete>
+    <select id="existById" parameterType="int" resultType="long">
+        SELECT COUNT(eno)
+        FROM TB_EMP
+        WHERE ENO = #{eno}
+    </select>
+
 </mapper>

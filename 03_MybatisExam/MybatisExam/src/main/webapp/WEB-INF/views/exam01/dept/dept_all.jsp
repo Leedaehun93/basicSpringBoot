@@ -48,7 +48,7 @@
         <tbody>
         <c:forEach var="data" items="${dept}">
             <tr>
-                <td>${data.dno}</td>
+                <td><a href="/exam01/dept/edition/${data.dno}">${data.dno}</a></td>
                 <td>${data.dname}</td>
                 <td>${data.loc}</td>
                 <td>${data.insertTime}</td>
@@ -71,39 +71,43 @@
             <%-- TODO : 실제 페이지 번호들(반복) --%>
             <%--  사용법 : <c:forEach var="data" begin="시작값" end="끝값">반복문</c:forEach>--%>
             <c:forEach var="data" begin="${startPage}" end="${endPage}">
-                <li class="page-item ${(currentPage+1==data)? 'active': ''}">
-                    <a class="page-link" href="/exam01/dept?page=${data-1}&size=${3}">
-                            ${data}
-                    </a>
-                </li>
+            <li class="page-item ${(currentPage+1==data)? 'active': ''}">
+                <a class="page-link" href="/exam01/dept?page=${data-1}&size=${3}">
+                        ${data}
+                </a>
+            </li>
             </c:forEach>
             <%-- TODO : 끝 페이지 번호--%>
             <li class="page-item ${(endPage==totalPages)? 'disabled': ''}">
                 <a class="page-link" href="/exam01/dept?page=${endPage}&size=${3}">Next</a>
             </li>
-        </ul>
-        <%-- TODO : 페이지 번호 끝 --%>
     </div>
+    <%--    todo: 페이지 번호 끝--%>
 
-    <script>
-        let obj = "${dept}";
-        let obj2 = "${currentPage}";
-        let obj3 = "${totalItems}";
-        let obj4 = "${totalPages}";
-        let obj5 = "${startPage}";
-        let obj6 = "${endPage}";
-
-        console.log("obj", obj);
-        console.log("obj2", obj2);
-        console.log("obj3", obj3);
-        console.log("obj4", obj4);
-        console.log("obj5", obj5);
-        console.log("obj6", obj6);
-    </script>
-
-    <%-- footer --%>
-    <jsp:include page="../../common/footer.jsp"/>
-
+    <%--    todo: Add 버튼 추가--%>
+    <div class="text-center">
+        <a href="/exam01/dept/addition" class="btn btn-primary center">Add</a>
+    </div>
 </div>
+
+<script>
+    let obj = "${dept}";
+    let obj2 = "${currentPage}";
+    let obj3 = "${totalItems}";
+    let obj4 = "${totalPages}";
+    let obj5 = "${startPage}";
+    let obj6 = "${endPage}";
+
+    console.log("obj", obj);
+    console.log("obj2", obj2);
+    console.log("obj3", obj3);
+    console.log("obj4", obj4);
+    console.log("obj5", obj5);
+    console.log("obj6", obj6);
+</script>
+
+<%-- footer --%>
+<jsp:include page="../../common/footer.jsp"/>
+
 </body>
 </html>

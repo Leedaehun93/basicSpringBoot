@@ -6,13 +6,20 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Optional;
+
 
 /**
  * packageName : com.example.mybatisexam.dao
  * fileName : DeptDao
  * author : L.DH
  * date : 2023-10-12
- * description : Db 접속 함수들이(CRUD) 있는 클래스(mybatis mapper(=dao) 클래스)
+ * description : CRUD Db 접속 함수들이(CRUD) 있는 클래스(mybatis mapper(=dao) 클래스)
+ * 1. 전체 조회 : like 기능
+ * 2. 상세 조회
+ * 3. 저장 함수
+ * 4. 수정 함수
+ * 5. 삭제 함수
  * 요약 :
  * TODO : interface 함수만 정의
  * @Mapper : 인터페이스 위에 달고, mybatis에서 사용할 인터페이스라는 것을 알림
@@ -35,11 +42,26 @@ import java.util.List;
  */
 @Mapper
 public interface DeptDao {
-
     /** 전체 조회 : 부서명 like 기능 있음 */
     public List<Dept> findByDnameContaining(@Param("dname") String dname,
                                             PageReq pageReq
                                             );
     /** 전체 테이블 개수 세기 함수 */
     long countByDname(String dname);
-}
+
+    /** 상세 조회(1건조회) */
+    Optional<Dept> findById(int dno);
+
+    /** 저장 함수 */
+    int insert(Dept dept);
+
+    /** 수정 함수 */
+    int update(Dept dept);
+
+    /** 삭제 함수 */
+    int deleteById(int dno);
+
+    /** 기본키(dno) 가 있는지 확인하는 조회 함수 */
+    long existById(int dno);
+
+} // end of interface

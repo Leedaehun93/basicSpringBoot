@@ -7,8 +7,7 @@
         SELECT DNO
              , DNAME
              , LOC
-             , INSERT_TIME
-             , UPDATE_TIME
+        <include refid="common.selectCol"></include>
         FROM TB_DEPT
         WHERE DNAME LIKE '%' || #{dname} || '%'
         OFFSET #{pageReq.page} * #{pageReq.size} ROWS FETCH FIRST #{pageReq.size} ROWS ONLY
@@ -18,5 +17,46 @@
         SELECT COUNT(dno)
         FROM TB_DEPT
         WHERE DNAME LIKE '%' || #{dname} || '%'
+    </select>
+
+    <select id="findById" parameterType="int" resultType="Dept">
+        SELECT DNO
+        , DNAME
+        , LOC
+        <include refid="common.selectCol"></include>
+        FROM TB_DEPT
+        WHERE DNO = #{dno}
+    </select>
+
+    <insert id="insert" parameterType="Dept">
+        INSERT INTO TB_DEPT(
+                            DNO
+                           , DNAME
+                           , LOC
+                           , INSERT_TIME)
+        VALUES (
+                SQ_DEPT.NEXTVAL
+                , #{dname}
+                , #{loc}
+                , #{insertTime}
+               )
+    </insert>
+
+    <update id="update" parameterType="Dept">
+        UPDATE TB_DEPT
+        SET DNAME      = #{dname}
+          , LOC         = #{loc}
+          , UPDATE_TIME = #{updateTime}
+        WHERE DNO = #{dno}
+    </update>
+
+    <delete id="deleteById" parameterType="int">
+        DELETE FROM TB_DEPT
+        WHERE DNO = #{dno}
+    </delete>
+    <select id="existById" parameterType="int" resultType="long">
+        SELECT COUNT(dno)
+        FROM TB_DEPT
+        WHERE DNO = #{dno}
     </select>
 </mapper>
