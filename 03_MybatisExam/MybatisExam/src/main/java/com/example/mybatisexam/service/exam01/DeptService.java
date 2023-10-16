@@ -16,12 +16,13 @@ import java.util.Optional;
  * fileName : DeptService
  * author : L.DH
  * date : 2023-10-12
- * description : CRUD 부서 서비스 클래스(업무 로직)
+ * description : CRUD 서비스 클래스(업무 로직)
  * 1. 전체 조회 : like 기능
  * 2. 상세 조회
  * 3. 저장 함수
  * 4. 수정 함수
  * 5. 삭제 함수
+ * 6. 다이나믹 SQL
  * 요약 :
  * <p>
  * ===========================================================
@@ -106,6 +107,29 @@ public class DeptService {
         }
 
         return false;
+    }
+
+    /**
+     * TODO : dynamic sql
+     */
+    public PageRes<Dept> findByDynamicContaining(
+            String dname, String loc, PageReq pageReq
+    ) {
+//      todo: dynamic 조회 (like 됨)
+        List<Dept> list = deptDao.findByDynamicContaining(dname, loc, pageReq);
+
+//      todo: 페이징 처리 로직
+//       총 테이블 개수 :
+        long totalCount = deptDao.countByDynamic(dname, loc);
+//        todo: 생성자 페이지 결과 객체(PageRes)
+        PageRes pageRes = new PageRes(
+                list,              // 검색 결과(부서) 배열
+                pageReq.getPage(), // 현재 페이지 번호
+                totalCount,        // 총 테이블 건수
+                pageReq.getSize()  // 1페이지당 개수
+        );
+
+        return pageRes;
     }
 
 } // end of class

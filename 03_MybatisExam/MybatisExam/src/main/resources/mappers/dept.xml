@@ -5,8 +5,8 @@
 
     <select id="findByDnameContaining" parameterType="PageReq" resultType="Dept">
         SELECT DNO
-             , DNAME
-             , LOC
+        , DNAME
+        , LOC
         <include refid="common.selectCol"></include>
         FROM TB_DEPT
         WHERE DNAME LIKE '%' || #{dname} || '%'
@@ -29,29 +29,27 @@
     </select>
 
     <insert id="insert" parameterType="Dept">
-        INSERT INTO TB_DEPT(
-                            DNO
+        INSERT INTO TB_DEPT( DNO
                            , DNAME
                            , LOC
                            , INSERT_TIME)
-        VALUES (
-                SQ_DEPT.NEXTVAL
-                , #{dname}
-                , #{loc}
-                , #{insertTime}
-               )
+        VALUES ( SQ_DEPT.NEXTVAL
+               , #{dname}
+               , #{loc}
+               , #{insertTime})
     </insert>
 
     <update id="update" parameterType="Dept">
         UPDATE TB_DEPT
-        SET DNAME      = #{dname}
+        SET DNAME       = #{dname}
           , LOC         = #{loc}
           , UPDATE_TIME = #{updateTime}
         WHERE DNO = #{dno}
     </update>
 
     <delete id="deleteById" parameterType="int">
-        DELETE FROM TB_DEPT
+        DELETE
+        FROM TB_DEPT
         WHERE DNO = #{dno}
     </delete>
     <select id="existById" parameterType="int" resultType="long">
@@ -59,4 +57,37 @@
         FROM TB_DEPT
         WHERE DNO = #{dno}
     </select>
+
+    <!-- TODO : Dynamic func #1 -->
+    <select id="findByDynamicContaining" parameterType="pageReq"
+            resultType="Dept">
+        SELECT DNO
+        , DNAME
+        , LOC
+        <include refid="common.selectCol"></include>
+        FROM TB_DEPT
+        WHERE 1=1
+        <if test="dname != ''">
+            AND DNAME LIKE '%' || #{dname} || '%'
+        </if>
+        <if test="loc != ''">
+            AND LOC LIKE '%' || #{loc} || '%'
+        </if>
+        OFFSET #{pageReq.page} * #{pageReq.size} ROWS FETCH FIRST #{pageReq.size} ROWS ONLY
+    </select>
+
+    <!--  todo: Dynamic func # 2  -->
+    <select id="countByDynamic" parameterType="String" resultType="long">
+        SELECT COUNT(dno)
+        FROM TB_DEPT
+        WHERE 1=1
+        <if test="dname != ''">
+            AND DNAME LIKE '%' || #{dname} || '%'
+        </if>
+        <if test="loc != ''">
+            AND LOC LIKE '%' || #{loc} || '%'
+        </if>
+    </select>
+
+
 </mapper>

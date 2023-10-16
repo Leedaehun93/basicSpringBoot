@@ -20,12 +20,14 @@ import java.util.Optional;
  * 3. 저장 함수
  * 4. 수정 함수
  * 5. 삭제 함수
+ * 6. 다이나믹 SQL
  * 요약 :
  * TODO : interface 함수만 정의
- * @Mapper : 인터페이스 위에 달고, mybatis에서 사용할 인터페이스라는 것을 알림
- *           서버 시작시 자동으로 객체가 생성됨
- * @Param("속성명") 변수명 : sql 의 매개변수로 전달됨
  *
+ * @Mapper : 인터페이스 위에 달고, mybatis에서 사용할 인터페이스라는 것을 알림
+ * 서버 시작시 자동으로 객체가 생성됨
+ * @Param("속성명") 변수명 : sql 의 매개변수로 전달됨
+ * <p>
  * TODO : xml
  * pageReq.size : 1 페이지당 개수
  * pageReq.page : 현재 페이지 번호
@@ -42,26 +44,58 @@ import java.util.Optional;
  */
 @Mapper
 public interface DeptDao {
-    /** 전체 조회 : 부서명 like 기능 있음 */
+    /**
+     * 전체 조회 : 부서명 like 기능 있음
+     */
     public List<Dept> findByDnameContaining(@Param("dname") String dname,
                                             PageReq pageReq
-                                            );
-    /** 전체 테이블 개수 세기 함수 */
+    );
+
+    /**
+     * 전체 테이블 개수 세기 함수
+     */
     long countByDname(String dname);
 
-    /** 상세 조회(1건조회) */
+    /**
+     * 상세 조회(1건조회)
+     */
     Optional<Dept> findById(int dno);
 
-    /** 저장 함수 */
+    /**
+     * 저장 함수
+     */
     int insert(Dept dept);
 
-    /** 수정 함수 */
+    /**
+     * 수정 함수
+     */
     int update(Dept dept);
 
-    /** 삭제 함수 */
+    /**
+     * 삭제 함수
+     */
     int deleteById(int dno);
 
-    /** 기본키(dno) 가 있는지 확인하는 조회 함수 */
+    /**
+     * 기본키(dno) 가 있는지 확인하는 조회 함수
+     */
     long existById(int dno);
+
+    /**
+     * TODO : Dynamic SQL 작성 예제
+     */
+    public List<Dept> findByDynamicContaining(
+            @Param("dname") String dname,
+            @Param("loc") String loc,
+            PageReq pageReq);
+
+    /**
+     * TODO : Dynamic SQL 작성 전체 카운트 예제
+     */
+    long countByDynamic(
+                        String dname,
+                        @Param("loc") String loc
+                        );
+
 
 } // end of interface

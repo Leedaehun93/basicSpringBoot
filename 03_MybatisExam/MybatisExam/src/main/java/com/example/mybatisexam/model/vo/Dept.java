@@ -9,9 +9,6 @@ import lombok.*;
  * author : L.DH
  * date : 2023-10-12
  * description : CRUD 부서 클래스 == 부서 테이블 유사
- * 1. 전체 조회 : like 기능
- * 2. 상세 조회
- * 3.
  * 요약 :
  * TODO : vo(Value Object) : 테이블과 동일하게 만듬
  * TODO : dto(Data Transfer Object) : 테이블 + 가공컬럼(속성)

@@ -4,8 +4,10 @@ package com.example.mybatisexam.service.exam01;
 import com.example.mybatisexam.dao.EmpDao;
 import com.example.mybatisexam.model.common.PageReq;
 import com.example.mybatisexam.model.common.PageRes;
+import com.example.mybatisexam.model.vo.Dept;
 import com.example.mybatisexam.model.vo.Emp;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,12 +19,13 @@ import java.util.Optional;
  * fileName : EmpService
  * author : L.DH
  * date : 2023-10-12
- * description : CRUD 부서 서비스 클래스(업무 로직)
+ * description : CRUD 서비스 클래스(업무 로직)
  * 1. 전체 조회 : like 기능
  * 2. 상세 조회
  * 3. 저장 함수
  * 4. 수정 함수
  * 5. 삭제 함수
+ * 6. 다이나믹 SQL
  * 요약 :
  * todo: 연습 1)부서클래스를 참고하여
  *     Emp 클래스 ( schema.sql 참고 )
@@ -45,19 +48,23 @@ import java.util.Optional;
  *                 jsp : exam01/emp/add_emp.jsp
  *    사원 db 저장 url : /emp/add
  *      redirect jsp : /exam01/emp
- *
+ * <p>
  * todo: 연습 4) 부서 클래스를 참고하여 사원에 수정기능을 추가하세요
  *   empDao, emp.xml, EmpService, EmpController, update_emp.jsp
  *   수정 페이지 url :  /emp/edition/{eno}
  *             jsp : exam01/emp/update_emp.jsp
  *   db 수정 url    : /emp/edit/{eno}
  *     redirect jsp: /exam01/emp
- *
+ * <p>
  * todo: 연습 5) 부서 클래스를 참고하여 사원 삭제기능을 추가하세요
  *   empDao, emp.xml, EmpService, EmpController, update_emp.jsp 수정
  *            url : /emp/delete/{eno}
  *   redirect jsp : /exam01/emp
  * <p>
+ * todo: 연습 4) 부서 클래스를 참고하여 사원에 다이나믹 조회 기능을 추가하세요
+ *    sql문 2개 : 1) 다이나믹 조회 2) 다이나믹 카운트 조회
+ *   empDao, emp.xml, empService, empController
+ *   url : /emp/dynamic
  * ===========================================================
  * DATE            AUTHOR             NOTE
  * ———————————————————————————————
@@ -80,7 +87,7 @@ public class EmpService {
 //         1) 총 테이블 개수 :
         long totalCount = empDao.countByEname(ename);
 //        TODO : 생성자 페이지 결과 객체(PageRes)
-        PageRes pageRes = new PageRes(list,               // 검색 결과(부서) 배열
+        PageRes pageRes = new PageRes(list,               // 검색 결과 배열
                 pageReq.getPage(),  // 현재 페이지 번호
                 totalCount,         // 총 테이블 건수
                 pageReq.getSize()   // 1 페이지당 개수
@@ -109,10 +116,14 @@ public class EmpService {
         // 에러(예외)처리 함수
         try {
 //          TODO : 기본키(eno) 없으면 insert
-            if(emp.getDno() == null) {
+            if (emp.getEno() == null) {
+                log.debug("-----------------------insert-----------------");
+                log.debug("emp.getEno() : " + emp.getEno());
                 queryResult = empDao.insert(emp);
             } else {
 //          TODO : 기본키(eno) 있으면 update
+                log.debug("update");
+                log.debug("emp.getEno() : " + emp.getEno());
                 queryResult = empDao.update(emp);
             }
         } catch (Exception e) {
@@ -139,4 +150,38 @@ public class EmpService {
 
         return false;
     }
+
+    /**
+     * TODO : dynamic sql 조회
+     */
+    public PageRes<Emp> findByDynamicContaining(
+            String ename,
+            String job,
+            Integer manager,
+            PageReq pageReq
+    ) {
+
+
+//      TODO: dynamic 조회 (like 됨)
+        List<Emp> list = empDao.findByDynamicContaining(
+                                                         ename,
+                                                         job,
+                                                         manager,
+                                                         pageReq
+                                                         );
+
+//        TODO : 페이징 처리 로직
+//         1) 총 테이블 개수 :
+        long totalCount = empDao.countByDynamic(ename, job, manager);
+//        TODO : 생성자 페이지 결과 객체(PageRes)  => jsp 로 페이징 정보를 주기위해 코딩함
+        PageRes pageRes = new PageRes(
+                list,               // 검색 결과 배열
+                pageReq.getPage(),  // 현재 페이지 번호
+                totalCount,         // 총 테이블 건수
+                pageReq.getSize()   // 1 페이지당 개수
+        );
+
+        return pageRes;
+    }
+
 }

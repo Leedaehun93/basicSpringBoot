@@ -19,7 +19,7 @@ import java.util.Optional;
  * fileName : EmpController
  * author : L.DH
  * date : 2023-10-12
- * description : CRUD 부서 컨트롤러 : jsp 연동 : @Controller
+ * description : CRUD 컨트롤러 : jsp 연동 : @Controller
  * 1. 전체 조회 : like 기능
  * 2. 상세 조회
  * 3. 저장 함수
