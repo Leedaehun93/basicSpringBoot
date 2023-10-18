@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
  * date : 2023-10-16
  * description : JPA 레포지토리 인터페이스 ( DB 접속 함수들(CRUD) 있음)
  *               == DAO 비슷함
- * 요약 :
+ * 요약 : JPA를 이용한 기본 CRUD
  *
  * todo: 연습1) 부서 클래스를 참고하여 사원 모델을(Emp) 만들고,
  *   empRepository, empService, empController 를 작성하세요
